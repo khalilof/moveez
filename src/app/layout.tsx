@@ -1,4 +1,12 @@
+import { Footer } from './components/Footer'
+import { NavBar } from './components/NavBar'
 import './globals.css'
+import { Oswald } from 'next/font/google';
+
+const oswald  = Oswald({
+    weight: ['400', '700'],
+    subsets: ['latin']
+});
 
 export const metadata = {
   title: 'Create Next App',
@@ -12,7 +20,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={`${oswald.className}`}>
+      <NavBar></NavBar>
+        {children}
+      <Footer></Footer>
+      </body>
     </html>
   )
 }

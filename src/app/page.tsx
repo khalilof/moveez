@@ -1,91 +1,41 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
 import styles from './page.module.css'
+import MovieCard from '@/app/components/MovieCard';
+import { searchMovieAPI } from '@/app/helper/ApiURLFactory';
 
-const inter = Inter({ subsets: ['latin'] })
+export default async function Home({searchParams}: {
+    searchParams?: { [key: string]: string };
+})  {
+    let movies = [];
+    const {search} = searchParams;
+    if(search) {
+        const moviesResponse = await fetch(searchMovieAPI(search));
+        movies = (await moviesResponse.json()).results;
+    }
 
-export default function Home() {
-  return (
+
+    return (
     <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+        <form className="flex flex-row items-center gap-3 w-1/3">
+            <input className="focus:ring-2 focuclassNameg-blue-500 focus:outline-none appearance-none w-full text-sm leading-6 text-slate-900 placeholder-slate-400 rounded-md py-2 pl-10 ring-1 ring-slate-200 shadow-sm"
+                   type="text" aria-label="Search Movie" placeholder="Search Movie..." name="search" />
+
+            <button type="submit">search</button>
+        </form>
+        <br/>
+        <div className={`${styles.searchResult} flex flex-row flex-wrap gap-2 items-center overflow-auto`}>
+            {movies ?
+                movies.map((it: any) => (
+                    <MovieCard
+                        key={it.id}
+                        id={it.id}
+                        title={it.title}
+                        overview={it.overview}
+                        poster_path={it.poster_path}
+                        release_date={it.release_date}></MovieCard>
+                )) : ''
+            }
+            { movies.length === 0 ? (<h2>Nothing to show</h2>) : '' }
         </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-        <div className={styles.thirteen}>
-          <Image src="/thirteen.svg" alt="13" width={40} height={31} priority />
-        </div>
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
     </main>
   )
 }
