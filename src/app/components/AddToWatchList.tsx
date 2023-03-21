@@ -1,7 +1,7 @@
 'use client';
 import { useRouter } from 'next/navigation';
 
-export default function AddToWatchList({id}) {
+export default function AddToWatchList({movieId}: {movieId: string}) {
     const router = useRouter();
 
     const create = async() => {
@@ -11,7 +11,7 @@ export default function AddToWatchList({id}) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              new_movie: id
+              new_movie: movieId
             }),
         });
         router.refresh();

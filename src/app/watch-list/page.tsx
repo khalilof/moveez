@@ -11,8 +11,8 @@ export default async function WatchList() {
     return (
         <div>
             {
-                myWatchList.map(it => (
-                    <ul className="max-w-md divide-yclassNamede-gray-200 dark:divide-gray-700">
+                myWatchList.map((it: any) => (
+                    <ul key={it.id} className="max-w-md divide-yclassNamede-gray-200 dark:divide-gray-700">
                         <li className="pb-3 sm:pb-4">
                             <div className="flex items-centerclassNamee-x-4">
                                 <div className="flex-shrink-0">

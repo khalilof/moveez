@@ -6,11 +6,14 @@ export default async function Home({searchParams}: {
     searchParams?: { [key: string]: string };
 })  {
     let movies = [];
-    const {search} = searchParams;
-    if(search) {
-        const moviesResponse = await fetch(searchMovieAPI(search));
-        movies = (await moviesResponse.json()).results;
+    if(searchParams) {
+        const search = searchParams['search'];
+        if(search) {
+            const moviesResponse = await fetch(searchMovieAPI(search));
+            movies = (await moviesResponse.json()).results;
+        }
     }
+
 
 
     return (

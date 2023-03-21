@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link';
 import AddToWatchList from '@/app/components/AddToWatchList';
 
-export default function MovieCard({title, release_date, poster_path, overview, id}) {
+export default function MovieCard({title, release_date, poster_path, overview, id}: {title: string, release_date: string, poster_path: string, overview: string, id: string}) {
 
     return (
         <figure className="md:flex bg-slate-100 rounded-xl p-8 md:p-0 dark:bg-slate-800">
@@ -28,9 +28,9 @@ export default function MovieCard({title, release_date, poster_path, overview, i
                     </p>
                 </blockquote>
 
-             <div className="flex flex-row justify-between leading-[40px]">
-                 <Link className="h-10 px-6 font-semibold rounded-full bg-sky-600 text-white" href={`/movie/${id}`}>More Info >> </Link>
-                 <AddToWatchList id={id} key={id}/>
+             <div className="flex flex-row justify-between leading-[40px] ">
+                 <Link className="h-10 px-6 font-semibold rounded-full bg-sky-600 text-white" href={`/movie/${id}`}>More Info </Link>
+                 <AddToWatchList movieId={id} key={id}/>
              </div>
             </div>
         </figure>

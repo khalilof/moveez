@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { getMovieByIdAPI } from '@/app/helper/ApiURLFactory';
 import { readFileSync, writeFileSync } from 'fs';
 
-let MEMO_DB = [];
+let MEMO_DB: any[] = [];
 const FILE_PATH = './data.json';
 
 export async function POST(request: Request) {

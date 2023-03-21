@@ -2,7 +2,7 @@ import MovieCard from '@/app/components/MovieCard';
 import { getMovieByIdAPI } from '@/app/helper/ApiURLFactory';
 import Image from 'next/image';
 
-export default async function MovieDetails({params}) {
+export default async function MovieDetails({params}: {params: any}) {
     const {id} = params;
     console.log('searching for: ',  id);
     const movieResponse = await fetch(getMovieByIdAPI(id));
@@ -19,13 +19,14 @@ export default async function MovieDetails({params}) {
           <span >{movie.overview}</span>
           <div className='flex flex-row items-start justify-between mt-5'>
               <div>
-                  { movie.genres.map( (genre) => (<ul>{genre.name}</ul>)) }
+                  { movie.genres.map( (genre: any) => (<ul key={genre.name}>{genre.name}</ul>)) }
               </div>
               <Image
                   src={'https://image.tmdb.org/t/p/original' + movie.poster_path}
                   width={160}
                   height={160}
                   priority
+                  alt={movie.title}
               />
           </div>
       </div>
