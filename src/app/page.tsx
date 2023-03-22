@@ -16,6 +16,9 @@ export default async function Home({searchParams}: {
             const moviesResponse = await fetch(searchMovieAPI(search));
             movies = (await moviesResponse.json()).results;
         }
+
+    } else {
+        throw new Error('no params read');
     }
 
 
