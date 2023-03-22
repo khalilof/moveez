@@ -6,8 +6,12 @@ export default async function Home({searchParams}: {
     searchParams?: { [key: string]: string };
 })  {
     let movies = [];
+    console.log('started home page');
+    console.log(searchParams);
     if(searchParams) {
+
         const search = searchParams['search'];
+        console.log('search', search);
         if(search) {
             const moviesResponse = await fetch(searchMovieAPI(search));
             movies = (await moviesResponse.json()).results;
