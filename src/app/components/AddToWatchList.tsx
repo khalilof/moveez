@@ -5,7 +5,7 @@ export default function AddToWatchList({movieId}: {movieId: string}) {
     const router = useRouter();
 
     const create = async() => {
-        await fetch('http://localhost:3001/api/movies', {
+        await fetch('/api/movies', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -1,13 +1,19 @@
 import Image from 'next/image';
 
+
 export default async function WatchList() {
+    let apiURL = '';
+    if (process.env.NEXT_PUBLIC_VERCEL_URL) {
+        apiURL = `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/movies`;
+    } else {
+        apiURL = 'http://localhost:3000/api/movies';
+    }
+     const getMyMovies = await fetch(apiURL, {
+         method: 'GET',
+         cache: 'no-store'});
+     const myWatchList = (await getMyMovies.json()).my_movies;
 
-    const getMyMovies = await fetch('http://localhost:3001/api/movies', {
-        method: 'GET',
-        cache: 'no-store'});
-    const myWatchList = (await getMyMovies.json()).my_movies;
 
-    console.log(myWatchList);
     return (
         <div>
             {

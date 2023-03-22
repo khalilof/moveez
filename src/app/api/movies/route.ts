@@ -28,17 +28,14 @@ export async function POST(request: Request) {
 
 
 export async function GET(request: Request) {
-    console.log('requesting db', MEMO_DB);
     let parsedData = {};
     try {
         const dataFromFile = readFileSync(FILE_PATH, 'utf8');
-        console.log('reading files');
         parsedData = JSON.parse(dataFromFile);
-        console.log('reading files done');
     } catch (error) {
         console.log('something went wrong while reading file');
     }
-    console.log('sending data', parsedData);
+
     return NextResponse.json({my_movies: parsedData})
 }
 
