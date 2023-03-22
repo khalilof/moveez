@@ -1,6 +1,7 @@
 import MovieCard from '@/app/components/MovieCard';
 import { getMovieByIdAPI } from '@/app/helper/ApiURLFactory';
 import Image from 'next/image';
+import AddToWatchList from '@/app/components/AddToWatchList';
 
 export default async function MovieDetails({params}: {params: any}) {
     const {id} = params;
@@ -29,6 +30,8 @@ export default async function MovieDetails({params}: {params: any}) {
                   alt={movie.title}
               />
           </div>
+
+          <AddToWatchList movieId={movie.id} key={movie.id}/>
       </div>
   )
 }
