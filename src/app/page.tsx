@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import styles from './page.module.css'
 import MovieCard from '@/app/components/MovieCard';
 import { searchMovieAPI } from '@/app/helper/ApiURLFactory';
@@ -5,6 +7,7 @@ import { searchMovieAPI } from '@/app/helper/ApiURLFactory';
 export default async function Home({searchParams}: {
     searchParams?: { [key: string]: string };
 })  {
+    console.log('1');
     let movies = [];
     console.log('started home page');
     console.log(searchParams);
