@@ -1,19 +1,17 @@
 import { NextResponse } from 'next/server';
 import { getMovieByIdAPI } from '@/app/helper/ApiURLFactory';
 import { readFileSync, writeFileSync } from 'fs';
-import path from 'path';
 
 let MEMO_DB: any[] = [];
-
+const FILE_PATH = '/tmp/data.json'
 
 export async function POST(request: Request) {
     const body = await request.json();
     const movieAPIResponse = await fetch(getMovieByIdAPI(body.new_movie));
     const movie = await movieAPIResponse.json();
-    const file = path.join('/tmp/data.json');
 
     try {
-        const dataFromFile = readFileSync(file, 'utf8');
+        const dataFromFile = readFileSync(FILE_PATH, 'utf8');
         MEMO_DB = [...JSON.parse(dataFromFile)];
     } catch (error) {
         console.log('no file yet..');
@@ -26,7 +24,7 @@ export async function POST(request: Request) {
         id: movie.id,
     });
     const json = JSON.stringify(MEMO_DB);
-    writeFileSync(file, json);
+    writeFileSync(FILE_PATH, json);
 
     return NextResponse.json({body})
 }
@@ -35,8 +33,7 @@ export async function POST(request: Request) {
 export async function GET(request: Request) {
     let parsedData = {};
     try {
-        const file = path.join('/tmp/data.json');
-        const dataFromFile = readFileSync(file, 'utf8');
+        const dataFromFile = readFileSync(FILE_PATH, 'utf8');
         parsedData = JSON.parse(dataFromFile);
     } catch (error) {
         console.log('something went wrong while reading file');
