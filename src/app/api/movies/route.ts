@@ -1,44 +1,38 @@
 import { NextResponse } from 'next/server';
 import { getMovieByIdAPI } from '@/app/helper/ApiURLFactory';
-import { readFileSync, writeFileSync } from 'fs';
+import addData from '@/app/firebase/addDoc';
+import getCollection from '@/app/firebase/getCollection';
 
-let MEMO_DB: any[] = [];
-const FILE_PATH = '/tmp/data.json'
+const watchListCollection = 'khalil-watchlist';
 
 export async function POST(request: Request) {
     const body = await request.json();
     const movieAPIResponse = await fetch(getMovieByIdAPI(body.new_movie));
     const movie = await movieAPIResponse.json();
 
-    try {
-        const dataFromFile = readFileSync(FILE_PATH, 'utf8');
-        MEMO_DB = [...JSON.parse(dataFromFile)];
-    } catch (error) {
-        console.log('no file yet..');
-    }
-    MEMO_DB.push({
+    const movieToAdd = {
         title: movie.title,
         release_date: movie.release_date,
         poster_path: movie.poster_path,
         overview: movie.overview,
         id: movie.id,
-    });
-    const json = JSON.stringify(MEMO_DB);
-    writeFileSync(FILE_PATH, json);
+    }
+    const { result, error } = await addData(watchListCollection, String(movie.id), movieToAdd);
 
-    return NextResponse.json({body})
+    if (error) {
+        return console.log(error);
+    }
+    return NextResponse.json({result});
 }
 
 
 export async function GET(request: Request) {
-    let parsedData = {};
-    try {
-        const dataFromFile = readFileSync(FILE_PATH, 'utf8');
-        parsedData = JSON.parse(dataFromFile);
-    } catch (error) {
-        console.log('something went wrong while reading file');
+    const { result, error } = await getCollection(watchListCollection);
+
+    if (error) {
+        return console.log(error);
     }
 
-    return NextResponse.json({my_movies: parsedData})
+    return NextResponse.json({my_movies: result});
 }
 
